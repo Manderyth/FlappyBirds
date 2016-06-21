@@ -23,8 +23,25 @@ function initSprites(img) {
           new Sprite (img, 103, 1, 100, 44), //x is horizontal, y is vertical
           new Sprite (img, 203, 1, 100, 44),
           new Sprite (img, 303, 1, 100, 44),
-      ]  
-    };
+      ]
+   };
+
+function cloudSprite(cloud, x, y, width, height) {
+    this.cloud = cloud;
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
+}
+
+Sprite.prototype.draw = function (renderingContext, x, y) {
+    renderingContext.drawImage(this.img, this.x, this.y, this.width, this.height,
+        x, y, this.width, this.height);
+};
+
+function bgSprite(cloud) {
+    backgroundsprite = new cloudSprite(cloud)
+};
 
 
 /* old sprite sheet

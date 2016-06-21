@@ -38,6 +38,10 @@ function Pony() {
     this.gravity = 0.25;
     this._jump = 4.6;
 
+    this.jump = function () {
+        this.velocity = -this._jump;
+    };
+
     this.update = function () {
         var n = currentState === states.Splash ? 10 : 5;
 
@@ -47,7 +51,7 @@ function Pony() {
         if (currentState === states.Splash) {
             this.updateIdlePony();
         } else { // Game state
-            this.updatePlayingFish();
+            this.updatePlayingPony();
         }
     };
 
@@ -57,6 +61,38 @@ function Pony() {
         this.y = height - 280 + 5 * Math.cos(frames / 10);
         this.rotation = 0;
     };
+
+
+    this.updatePlayingPony = function () {
+        this.velocity += this.gravity;
+        this.y += this.velocity;
+
+        // Change to the score state when fish touches the ground
+        //if (this.y >= height - foregroundSprite.height - 10) {
+        //    this.y = height - foregroundSprite.height - 10;
+
+            if (currentState === states.Game) {
+                currentState = states.Score;
+            }
+
+            this.velocity = this._jump; // Set velocity to jump speed for correct rotation
+        //}
+
+        // If our player hits the top of the canvas, we crash him
+        if (this.y <= 2) {
+            currentState = states.Score;
+        }
+
+        // When fish lacks upward momentum increment the rotation angle
+        if (this.velocity >= this._jump) {
+            this.frame = 1;
+            this.rotation = Math.min(Math.PI / 2, this.rotation + 0.3);
+        } else {
+            this.rotation = -0.3;
+        }
+    };
+
+
 
     this.draw = function (renderingContext) {
             renderingContext.save();
@@ -76,11 +112,14 @@ function Pony() {
 
 function loadGraphics() {
     var img = new Image();
+    var cloud = new Image;
     img.src = "images/randbowDash_newLegs.png";
+    cloud.src="images/Cloud.jpg";
     img.onload = function () {
         initSprites(this);
-        renderingContext.fillStyle = "Black";
-        renderingContext.fillRect(0, 0, width, height);
+        bgSprite(this);
+        //renderingContext.fillStyle = "Black";
+        //renderingContext.fillRect(0, 0, width, height);
         //ponysprite[0].draw(renderingContext, 120, 195, 142, 50);
 
         gameLoop();
@@ -138,8 +177,8 @@ function render() {
     renderingContext.fillRect(0, 0, width, height);
 
     // Draw background sprites
-    //backgroundSprite.draw(renderingContext, 0, height - backgroundSprite.height);
-    //backgroundSprite.draw(renderingContext, backgroundSprite.width, height - backgroundSprite.height);
+    //backgroundsprite.draw(renderingContext, 0, height - backgroundSprite.height);
+    //backgroundsprite.draw(renderingContext, backgroundSprite.width, height - backgroundSprite.height);
 
     //corals.draw(renderingContext);
     pony.draw(renderingContext);}
@@ -177,7 +216,7 @@ function onpress(evt) {
             }
 
             // Check if within the okButton
-            if (okButton.x < mouseX && mouseX < okButton.x + okButton.width &&
+          /*  if (okButton.x < mouseX && mouseX < okButton.x + okButton.width &&
                 okButton.y < mouseY && mouseY < okButton.y + okButton.height
             ) {
                 //console.log('click');
@@ -186,6 +225,7 @@ function onpress(evt) {
                 score = 0;
             }
             break;
+            */
     }
 }
 
