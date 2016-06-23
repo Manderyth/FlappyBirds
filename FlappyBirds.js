@@ -113,12 +113,12 @@ function Pony() {
 function loadGraphics() {
     var img = new Image();
     var cloud = new Image;
-    img.src = "images/randbowDash_newLegs.png";
     cloud.src="images/Cloud.jpg";
+    img.src = "images/randbowDash_newLegs.png";
     img.onload = function () {
         initSprites(this);
         bgSprite(this);
-        //renderingContext.fillStyle = "Black";
+        renderingContext.fillStyle = "White";
         //renderingContext.fillRect(0, 0, width, height);
         //ponysprite[0].draw(renderingContext, 120, 195, 142, 50);
 
@@ -142,6 +142,7 @@ function windowSetup(){
 function canvasSetup(){
     canvas = document.createElement("canvas");
     canvas.style.border = "15px solid #FFC0CB";
+    canvas.id = "canvaswindow";
     canvas.width = width;
     canvas.height = height;
     renderingContext = canvas.getContext("2d");
@@ -175,6 +176,7 @@ function update() {
 function render() {
     // Draw background color
     renderingContext.fillRect(0, 0, width, height);
+    //backgroundsprite.draw(renderingContext);
 
     // Draw background sprites
     //backgroundsprite.draw(renderingContext, 0, height - backgroundSprite.height);
@@ -223,9 +225,9 @@ function onpress(evt) {
                 rainbow.reset();
                 currentState = states.Splash;
                 score = 0;
-            }
+            } */
             break;
-            */
+            
     }
 }
 
