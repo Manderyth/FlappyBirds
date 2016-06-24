@@ -12,3 +12,12 @@
     margin-top: 25px;
 }
 
+h1 {
+    text-align: center;
+    color: #ff69b4;
+}
+
+button {
+    position: relative;
+    margin-left: 50%;
+    }
