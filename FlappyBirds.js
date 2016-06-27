@@ -20,6 +20,7 @@ function main() {
     canvasSetup(); //sets up the canvas size
     currentState = states.Splash;
     document.body.appendChild(canvas);
+    $(document.body).append("<button id='resetbutton'>Click to Reset</button>");
     pony = new Pony();
     rainbow = new RainbowCollection();
 
@@ -147,8 +148,8 @@ function Pony() {
 
 
         // Change to the score state when fish touches the ground
-        if (this.y >= height) {
-            this.y = height;
+        if (this.y >= height + 50) {
+            this.y = height + 50;
 
 
             if (currentState === states.Game) {
@@ -327,6 +328,20 @@ function scorecalculation() {
 function highscorecalc() {
     if (score > highscore) {
         highscore = score;
+        localStorage.setItem("highscore", highscore);
         document.getElementById('myhighscore').innerHTML = highscore;
+        score = 0
     }
+    else {
+        score = 0
+    }
+
+    /*highscore = localStorage.getItem("highscore");
+    if(highscore !== null){
+        if (score > highscore) {
+            localStorage.setItem("highscore", score );
+        }
+    }else{
+        localStorage.setItem("highscore", score );
+    }*/
 }

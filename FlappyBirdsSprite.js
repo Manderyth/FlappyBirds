@@ -22,7 +22,7 @@ function initSprites(img) {
           new Sprite (img, 203, 1, 100, 44),
           new Sprite (img, 303, 1, 100, 44)
       ];
-          rainbowsprite = new Sprite(img, 20, 50, 100, 250); //x, y, width, height
+          rainbowsprite = new Sprite(img, 20, 50, 100, 400); //x, y, width, height
    }
 
 
