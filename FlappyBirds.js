@@ -4,7 +4,6 @@ var currentState;
 var width;
 var height;
 var renderingContext;
-var okButton;
 var frames = 0;
 var score = 0;
 var highscore = 0;
@@ -15,12 +14,21 @@ var states = {
     Score: 2
 };
 
+
+
+function setHighScore() {
+    var localHighScore = localStorage.getItem("highScore");
+    highscore = localHighScore;
+    document.getElementById('myhighscore').innerHTML = highscore;
+    score = 0
+}
+
 function main() {
     windowSetup(); //sets width and height
     canvasSetup(); //sets up the canvas size
     currentState = states.Splash;
     document.body.appendChild(canvas);
-    $(document.body).append("<button id='resetbutton'>Click to Reset</button>");
+    $(document.body).append("<button id='resetbutton' onclick = this.states.Splash>Click to Reset</button>");
     pony = new Pony();
     rainbow = new RainbowCollection();
 
@@ -196,14 +204,7 @@ function loadGraphics() {
     img.src = "images/raindbowDashSprite.png";
     img.onload = function () {
         initSprites(this);
-        renderingContext.fillStyle = "White";
-
-        /*okButton = {
-         x: (width - okButtonSprite.width) / 2,
-         y: height - 200,
-         width: okButtonSprite.width,
-         height: okButtonSprite.height
-         };*/
+        renderingContext.fillStyle = "#C9F5F1";
 
         gameLoop();
     };
@@ -262,21 +263,9 @@ function render() {
     renderingContext.fillRect(0, 0, width, height);
     //backgroundsprite.draw(renderingContext);
 
-    // Draw background sprites
-    //backgroundsprite.draw(renderingContext, 0, height - backgroundSprite.height);
-    //backgroundsprite.draw(renderingContext, backgroundSprite.width, height - backgroundSprite.height);
-
     rainbow.draw(renderingContext);
     pony.draw(renderingContext);
 }
-
-/*if (currentState === states.Score) {
- okButtonSprite.draw(renderingContext, okButton.x, okButton.y);
- }*/
-
-// Draw foreground sprites
-//foregroundSprite.draw(renderingContext, foregroundPosition, height - foregroundSprite.height);
-//foregroundSprite.draw(renderingContext, foregroundPosition + foregroundSprite.width, height - foregroundSprite.height);
 
 
 function onpress(evt) {
@@ -292,18 +281,18 @@ function onpress(evt) {
             break;
 
         case states.Score: //Character crashed
-            var mouseX = evt.offsetX, mouseY = evt.offsetY;
+            if (currentState === states.Score) {
+                document.removeEventListener(inputEvent, onpress);
+
+            }
+            /*var mouseX = evt.offsetX, mouseY = evt.offsetY;
 
             if (mouseX == null || mouseY == null) {
                 mouseX = evt.touches[0].clientX;
                 mouseY = evt.touches[0].clientY;
-            }
+            }*/
         {
 
-            //Check if within the okButton
-            /*if (okButton.x < mouseX && mouseX < okButton.x + okButton.width &&
-             okButton.y < mouseY && mouseY < okButton.y + okButton.height
-             ) {*/
             rainbow.reset();
             currentState = states.Splash;
             score = 0;
@@ -326,22 +315,15 @@ function scorecalculation() {
 }
 
 function highscorecalc() {
+    //localStorage.getItem("highScore");
     if (score > highscore) {
         highscore = score;
-        localStorage.setItem("highscore", highscore);
-        document.getElementById('myhighscore').innerHTML = highscore;
+        localStorage.setItem("highScore", highscore);
+        //document.getElementById('myhighscore').innerHTML = highscore;
         score = 0
     }
-    else {
-        score = 0
-    }
+ }
 
-    /*highscore = localStorage.getItem("highscore");
-    if(highscore !== null){
-        if (score > highscore) {
-            localStorage.setItem("highscore", score );
-        }
-    }else{
-        localStorage.setItem("highscore", score );
-    }*/
-}
+/*if (currentState === states.Score) {
+ okButtonSprite.draw(renderingContext, okButton.x, okButton.y);
+ }*/
