@@ -28,7 +28,7 @@ function main() {
     canvasSetup(); //sets up the canvas size
     currentState = states.Splash;
     document.body.appendChild(canvas);
-    $(document.body).append("<button id='resetbutton' onclick = this.states.Splash>Click to Reset</button>");
+    $(document.body).append("<button id='resetbutton'>Click to Reset</button>");
     pony = new Pony();
     rainbow = new RainbowCollection();
 
@@ -281,27 +281,20 @@ function onpress(evt) {
             break;
 
         case states.Score: //Character crashed
-            if (currentState === states.Score) {
-                document.removeEventListener(inputEvent, onpress);
+            var okButton = document.getElementById('resetbutton');
 
+            var rect = okButton.getBoundingClientRect();
+
+            if (rect.left < evt.clientX && evt.clientX < rect.right &&
+                rect.top < evt.clientY && evt.clientY < rect.bottom) {
+
+                rainbow.reset();
+                currentState = states.Splash;
+                score = 0;
             }
-            /*var mouseX = evt.offsetX, mouseY = evt.offsetY;
-
-            if (mouseX == null || mouseY == null) {
-                mouseX = evt.touches[0].clientX;
-                mouseY = evt.touches[0].clientY;
-            }*/
-        {
-
-            rainbow.reset();
-            currentState = states.Splash;
-            score = 0;
-        }
             break;
-
+            }
     }
-
-}
 
 
 function scorecalculation() {
@@ -324,6 +317,3 @@ function highscorecalc() {
     }
  }
 
-/*if (currentState === states.Score) {
- okButtonSprite.draw(renderingContext, okButton.x, okButton.y);
- }*/
